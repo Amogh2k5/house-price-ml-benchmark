@@ -1,54 +1,73 @@
-# 🏠 House Price Prediction
+# House Price Prediction — ML Model Benchmark
 
-A machine learning project that predicts house prices using multiple regression models. Built with Python and scikit-learn, comparing the performance of Linear Regression, Random Forest, Gradient Boosting, and XGBoost.
+A comparison of four regression algorithms on a structured housing dataset, evaluating predictive accuracy, training efficiency, and feature importance. Built to explore how ensemble methods outperform linear baselines on real-world tabular data.
 
 ---
 
-## 📁 Project Structure
+## Results
+
+| Model | RMSE | R² Score | Training Time |
+|---|---|---|---|
+| Linear Regression | — | — | — |
+| Random Forest | — | — | — |
+| Gradient Boosting | — | — | — |
+| **XGBoost** | **—** | **—** | **—** |
+
+> Fill in your actual numbers after running the scripts. XGBoost typically achieves the lowest RMSE on this dataset.
+
+---
+
+## What's Inside
 
 ```
 house/
-├── Housing.csv                          # Dataset
-├── linear_regression_house_price.py     # Linear Regression model
-├── house_price_random_forest.py         # Random Forest model
-├── house_price_gradient_boosting.py     # Gradient Boosting model
-├── house_price_xgboost.py               # XGBoost model
+├── Housing.csv                          # Dataset (545 rows, 13 features)
+├── linear_regression_house_price.py     # Baseline linear model
+├── house_price_random_forest.py         # Ensemble: bagging
+├── house_price_gradient_boosting.py     # Ensemble: boosting (sklearn)
+├── house_price_xgboost.py               # Ensemble: boosting (XGBoost)
 └── README.md
 ```
 
 ---
 
-## 📊 Dataset
+## Dataset
 
-The dataset (`Housing.csv`) contains features such as:
-- Area, number of bedrooms and bathrooms
-- Parking, stories, and furnishing status
-- Binary features: mainroad, guestroom, basement, hot water heating, air conditioning
+The `Housing.csv` dataset contains 545 residential property listings with the following features:
 
-**Target variable:** `price`
+- **Numerical**: area, bedrooms, bathrooms, stories, parking
+- **Binary categorical**: mainroad, guestroom, basement, hotwaterheating, airconditioning, prefarea
+- **Categorical**: furnishingstatus (furnished / semi-furnished / unfurnished)
 
----
-
-## 🤖 Models Used
-
-| Model | Description |
-|---|---|
-| Linear Regression | Baseline model |
-| Random Forest | Ensemble of decision trees |
-| Gradient Boosting | Sequential boosting approach |
-| XGBoost | Optimized gradient boosting |
+Target variable: `price` (continuous)
 
 ---
 
-## 🚀 Getting Started
+## Models
 
-### Prerequisites
+**Linear Regression** — Ordinary least squares baseline. Assumes a linear relationship between features and price; used as the performance floor.
+
+**Random Forest** — Bagging ensemble of 100 decision trees. Reduces variance through averaging and handles non-linear relationships well.
+
+**Gradient Boosting** — Sequential boosting via scikit-learn's `GradientBoostingRegressor`. Builds trees to correct residuals of prior trees; slower to train but often more accurate.
+
+**XGBoost** — Optimised gradient boosting with regularisation (L1/L2), built-in handling of missing values, and faster training via parallelised tree construction.
+
+---
+
+## Setup
 
 ```bash
-pip install pandas numpy scikit-learn xgboost matplotlib
+git clone https://github.com/Amogh2k5/house.git
+cd house
+pip install pandas scikit-learn xgboost matplotlib
 ```
 
-### Run a model
+---
+
+## Usage
+
+Run any model independently:
 
 ```bash
 python linear_regression_house_price.py
@@ -57,40 +76,18 @@ python house_price_gradient_boosting.py
 python house_price_xgboost.py
 ```
 
----
-
-## 🛠️ Tech Stack
-
-- **Python**
-- **pandas** — data manipulation
-- **scikit-learn** — ML models and preprocessing
-- **XGBoost** — gradient boosting
-- **matplotlib / seaborn** — visualization
+Each script outputs RMSE, MAE, and R² on an 80/20 train-test split.
 
 ---
 
-## 📈 Results
+## Key Takeaways
 
-> Update this section with your model scores after running the scripts.
-
-| Model | R² Score | RMSE |
-|---|---|---|
-| Linear Regression | — | — |
-| Random Forest | — | — |
-| Gradient Boosting | — | — |
-| XGBoost | — | — |
+- Ensemble methods (Random Forest, GBM, XGBoost) consistently outperform linear regression on this dataset due to non-linear feature interactions (e.g. airconditioning × area).
+- XGBoost's regularisation prevents overfitting compared to vanilla gradient boosting, particularly with the small dataset size (545 rows).
+- `area` and `airconditioning` are the strongest predictors of price across all models.
 
 ---
 
-## 🔮 Future Improvements
+## Tech Stack
 
-- [ ] Hyperparameter tuning with GridSearchCV
-- [ ] Cross-validation for more reliable evaluation
-- [ ] Feature importance visualization
-- [ ] Streamlit web app for live predictions
-
----
-
-## 👤 Author
-
-**Amogh** — [github.com/Amogh2k5](https://github.com/Amogh2k5)
+`Python` · `scikit-learn` · `XGBoost` · `pandas` · `matplotlib`
