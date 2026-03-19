@@ -6,14 +6,14 @@ A comparison of four regression algorithms on a structured housing dataset, eval
 
 ## Results
 
-| Model | RMSE | R² Score | Training Time |
-|---|---|---|---|
-| Linear Regression | — | — | — |
-| Random Forest | — | — | — |
-| Gradient Boosting | — | — | — |
-| **XGBoost** | **—** | **—** | **—** |
+| Model | RMSE | R² Score |
+|---|---|---|
+| **Gradient Boosting** | **1,286,462** | **0.673** |
+| Linear Regression | 1,324,507 | 0.653 |
+| XGBoost | 1,364,171 | 0.632 |
+| Random Forest | 1,391,066 | 0.617 |
 
-> Fill in your actual numbers after running the scripts. XGBoost typically achieves the lowest RMSE on this dataset.
+> Evaluated on an 80/20 train-test split. Gradient Boosting achieves the best R² (0.673) and lowest RMSE, outperforming XGBoost — likely because sklearn's conservative learning rate generalises better on this small dataset (545 rows).
 
 ---
 
@@ -82,8 +82,9 @@ Each script outputs RMSE, MAE, and R² on an 80/20 train-test split.
 
 ## Key Takeaways
 
-- Ensemble methods (Random Forest, GBM, XGBoost) consistently outperform linear regression on this dataset due to non-linear feature interactions (e.g. airconditioning × area).
-- XGBoost's regularisation prevents overfitting compared to vanilla gradient boosting, particularly with the small dataset size (545 rows).
+- **Gradient Boosting wins** (R² 0.673, RMSE 1,286,462), beating XGBoost despite both being boosting methods. sklearn's `GradientBoostingRegressor` uses a slower, more conservative learning rate by default which generalises better on a small dataset like this.
+- **Linear Regression ranks second** (R² 0.653), outperforming XGBoost and Random Forest — showing that on 545 rows with largely linear feature relationships, a simple model can beat complex ensembles.
+- XGBoost edges out Random Forest (0.632 vs 0.617), with its L1/L2 regularisation reducing variance compared to unregularised bagging.
 - `area` and `airconditioning` are the strongest predictors of price across all models.
 
 ---
